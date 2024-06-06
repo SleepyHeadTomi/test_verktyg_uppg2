@@ -1,6 +1,6 @@
 // Import functions from other modules
 const express = require("express");
-const { connectDB } = require("./database.js");
+let db = require("./database.js");
 const {
     getAllProducts,
     getProductById,
@@ -17,7 +17,12 @@ const app = express();
 app.use(express.json());
 
 // Creates a connection to the database
-connectDB();
+db.connectDB();
+/*if (process.env.NODE_ENV !== 'test') {
+    db.connectDB();
+} else {
+    console.log('Skipping database connection in test environment.');
+}*/
 
 //--- Routes ---
 // Get all resources
@@ -38,4 +43,9 @@ app.delete("/api/products", deleteAllProducts);
 // Delete resource
 app.delete("/api/products/:id", deleteProduct);
 
-module.exports = app;
+/*module.exports = (databaseModule = db) => {
+    db = databaseModule;
+    return app;
+};*/
+
+module.exports = app
