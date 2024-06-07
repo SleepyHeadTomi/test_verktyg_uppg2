@@ -74,7 +74,7 @@ async function addProduct(req, res) {
         }
 
         const result = await db.addProductToDB(body);
-        console.log("result: ", result);
+        
         if (result.affectedRows === 0) {
             return res.status(500).json({ message: "Internal server error" });
         } else {

@@ -6,7 +6,8 @@
   "scripts": {
     "test:int": "mocha test/integration/*js --reporter mochawesome",
     "test:unit": "mocha test/unit/*.js --reporter mochawesome",
-    "test": "mocha test/**/*.js --reporter mochawesome",
+    "test:newman": "newman run Products.postman_collection.json",
+    "test": "newman run Products.postman_collection.json && mocha test/**/*.js --reporter mochawesome",
     "start": "node app.js"
   },
   "keywords": [
