@@ -28,7 +28,7 @@ async function getProductById(req, res) {
         if(isNaN(id)) return res.status(400).json({ message: "Bad Request"});
 
         const result = await db.getProdFromDB(id);
-
+        
         if(result.length === 0) {
             return res.status(404).json({ message: "Not Found"});
         }
@@ -50,12 +50,12 @@ async function updateProduct(req, res) {
         if(isNaN(id)) return res.status(400).json({ message: "Bad Request"});
 
         const result = await db.updateProdInDB(id, body);
-
-        if(result.length === 0) {
+        
+        if(!result || result.affectedRows === 0) {
             return res.status(404).json({ message: "Not Found"});
         }
         else {
-            return res.status(200).json(result);
+            return res.status(200).json({ message: "Changes saved"});
         }
     } catch (error) {
         console.log(error);
@@ -74,8 +74,8 @@ async function addProduct(req, res) {
         }
 
         const result = await db.addProductToDB(body);
-    
-        if (result.length === 0) {
+        console.log("result: ", result);
+        if (result.affectedRows === 0) {
             return res.status(500).json({ message: "Internal server error" });
         } else {
             return res.status(201).json({ message: "Product added successfully" });
@@ -91,13 +91,13 @@ async function addProduct(req, res) {
 async function deleteAllProducts(req, res) {
     try {
         const result = await db.deleteAllFromDB();
-
-    if(result && result[0] && result[0].affectedRows === 1) {
-        return res.status(200).json({ message: "Products Deleted"});
-    }
-    else {
-        return res.status(500).json({ message: "Internal server error"});
-    }
+        
+        if(result && result[0] && result[0].affectedRows > 0) {
+            return res.status(200).json({ message: "Products Deleted"});
+        }
+        else {
+            return res.status(500).json({ message: "Internal server error"});
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({message: "Internal server error"});
@@ -112,7 +112,7 @@ async function deleteProduct(req, res) {
     if(isNaN(id)) return res.status(400).json({ message: "Bad Request"});
     
     const result = await db.deleteProdFromDB(id);
-
+    
     if(result && result[0] && result[0].affectedRows === 1) {
         return res.status(200).json({ message: "Product Deleted"});
     }

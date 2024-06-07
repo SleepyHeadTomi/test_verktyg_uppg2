@@ -18,11 +18,6 @@ app.use(express.json());
 
 // Creates a connection to the database
 db.connectDB();
-/*if (process.env.NODE_ENV !== 'test') {
-    db.connectDB();
-} else {
-    console.log('Skipping database connection in test environment.');
-}*/
 
 //--- Routes ---
 // Get all resources
@@ -43,9 +38,14 @@ app.delete("/api/products", deleteAllProducts);
 // Delete resource
 app.delete("/api/products/:id", deleteProduct);
 
-/*module.exports = (databaseModule = db) => {
-    db = databaseModule;
-    return app;
-};*/
+// Reset database endpoint
+app.post("/api/reset-database", async (req, res) => {
+    try {
+        await db.resetDatabase();
+        res.status(200).send("Database reset successfully");
+    } catch (error) {
+        res.status(500).send("Error resetting database: " + error.message);
+    }
+});
 
 module.exports = app

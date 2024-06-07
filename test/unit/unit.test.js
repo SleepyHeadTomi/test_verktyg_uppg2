@@ -9,7 +9,6 @@ const {
 } = require("../../logic.js");
 const sinon = require("sinon");
 const db = require("../../database.js");
-const { json } = require("express");
 
 describe("Unit test on the function getAllProducts", function() {
 
@@ -180,13 +179,13 @@ describe("Unit test for the function updateProduct", function() {
     await updateProduct(req, res);
 
     assert(res.status.calledWith(200));
-    assert(res.json.calledWith(mockProducts));
+    assert(res.json.calledWith({ message: "Changes saved"}));
 
     stub.restore();
   });
 
-  it("should return status 404 when sendeing a invalid ID", async function() {
-    const mockProducts = [ ]
+  it("should return status 404 when sending a invalid ID", async function() {
+    const mockProducts = { affectedRows: 0 }
     const stub = sinon.stub(db, "updateProdInDB").resolves(mockProducts);
 
     const req = { 
@@ -225,7 +224,7 @@ describe("Unit test for the function addProduct", function() {
     assert(res.json.calledWith({ message: "Bad Request" }));;
   });
 
-  it("should return status 200 when sending a correct declaired body", async function() {
+  it("should return status 200 when sending a correct declared body", async function() {
     const mockProducts = 
     { id: 1, name: "Product 100", description: "a product", price: 25, quantity: 25, category: "something" };
 
@@ -247,8 +246,8 @@ describe("Unit test for the function addProduct", function() {
     stub.restore();
   });
 
-  it("should return status 500 Internal server error when sendeing a invalid ID", async function() {
-    const mockProducts = [ ]
+  it("should return status 500 Internal server error", async function() {
+    const mockProducts = { affectedRows: 0 }
     const stub = sinon.stub(db, "addProductToDB").resolves(mockProducts);
 
     const req = { 

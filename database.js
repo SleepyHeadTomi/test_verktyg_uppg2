@@ -40,8 +40,8 @@ async function getProductsFromDB(nameQuery) {
 async function getProdFromDB(id) {
     sqlQuery = "SELECT * FROM products WHERE id = ?";
 
-    const [result] = await connection.query(sqlQuery, id);
-
+    const [result] = await connection.query(sqlQuery, [id]);
+    
     return result;
 }
 
@@ -71,7 +71,7 @@ async function deleteAllFromDB() {
     const sqlQuery = "DELETE FROM products";
 
     const result = await connection.query(sqlQuery);
-    console.log(result);
+    
     return result;
 }
 
@@ -84,6 +84,28 @@ async function deleteProdFromDB(id) {
     return result;
 }
 
+async function resetDatabase() {
+    try {
+        await connection.query("DROP TABLE IF EXISTS products");
+        await connection.query(`CREATE TABLE products (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255),
+            description VARCHAR(255),
+            price DECIMAL(10, 2),
+            quantity INT,
+            category VARCHAR(255)
+        )`);
+        await connection.query(`INSERT INTO products (name, description, price, quantity, category) 
+                                VALUES ("Hot Dog", "a meal", 35.00, 10, "food item")`);
+        await connection.query(`INSERT INTO products (name, description, price, quantity, category) 
+                                VALUES ("Hamburger", "a meal", 75.00, 10, "food item")`);
+        console.log("Database reset successfully");
+    } catch (error) {
+        console.log("Error resetting database: ", error);
+        throw error;
+    }
+}
+
 module.exports = {
    connectDB,
    getProductsFromDB,
@@ -91,5 +113,6 @@ module.exports = {
    updateProdInDB,
    addProductToDB,
    deleteAllFromDB,
-   deleteProdFromDB
+   deleteProdFromDB,
+   resetDatabase
 };
