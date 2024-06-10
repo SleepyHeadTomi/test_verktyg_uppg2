@@ -2,7 +2,7 @@
 
 # Projektbeskrivning
 
-I detta projekt har vi byggt en enkel webbapplikation med HTML, CSS och JavaScript. Vi har också skapat en server som tar emot requests och skickar tillbaka responses från en MySQL-databas. Huvudfokuset ligger dock på testning av servern.
+I denna uppgift har jag byggt en REST API server integrerad med MySQL databas. Till denna server har jag skrivit testsviter med Postman för att testa end-2-end och superttest och Mocha för att testa inregrationen mellan olika delar av severn och för att testa specifika funktioners beteende.
 
 ## Krav
 
