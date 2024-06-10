@@ -25,6 +25,13 @@ app.get("/api/products", getAllProducts);
 
 // Get resource by ID
 app.get("/api/products/:id", getProductById);
+/*
+app.get("/api/products/:id", function (req, res) {
+    const id = Number(req.params.id);
+    const { status, message } = getProductById(id);
+    res.status(status).send(message)
+});
+*/
 
 // Update resource by ID
 app.put("/api/products/:id", updateProduct);

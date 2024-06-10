@@ -29,7 +29,7 @@ describe("Unit test on the function getAllProducts", function() {
       json: sinon.stub().returnsThis(),
     };
     await getAllProducts(req, res);
-
+    
     // Verfies that the corrects response is returned
     assert(res.status.calledWith(200));
     assert(res.json.calledWith(mockProducts));
@@ -94,13 +94,16 @@ describe("Unit test for the function getProductById", function() {
       status: sinon.stub().returnsThis(),
       json: sinon.stub().returnsThis()
     }
-
     await getProductById(req, res);
 
     assert(res.status.calledOnce);
     assert(res.status.calledWith(400));
     assert(res.json.calledOnce);
     assert(res.json.calledWith({ message: "Bad Request" }));;
+    /*
+    const { status, message } = await getProductById("Invalid ID");
+    assert(status, 400);
+    */
   });
 
   it("should return status 200 when sending a valid ID", async function() {

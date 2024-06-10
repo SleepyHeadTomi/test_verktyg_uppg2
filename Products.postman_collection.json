@@ -69,6 +69,104 @@
 			"response": []
 		},
 		{
+			"name": "GET product by query",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check the Items array length\", () => {\r",
+							"    pm.expect(pm.response.json().length > 0).to.equal(true)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"The value of name in the first element should be Hot Dog\", () => {\r",
+							"    const body = pm.response.json();\r",
+							"    pm.expect(body[0].name).to.eql(\"Hot Dog\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/products?name=Hot Dog",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Hot Dog"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET product by substring",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check the Items array length\", () => {\r",
+							"    pm.expect(pm.response.json().length > 0).to.equal(true)\r",
+							"});\r",
+							"\r",
+							"pm.test(\"The value of name in the first element should be Hot Dog\", () => {\r",
+							"    const body = pm.response.json();\r",
+							"    pm.expect(body[0].name).to.eql(\"Hamburger\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/products?name=bu",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "bu"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET single product",
 			"event": [
 				{

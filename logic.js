@@ -26,18 +26,22 @@ async function getProductById(req, res) {
         const id = Number(req.params.id);
 
         if(isNaN(id)) return res.status(400).json({ message: "Bad Request"});
+        //if(isNaN(id)) return { status: 400, message: "Bad Request"};
 
         const result = await db.getProdFromDB(id);
         
         if(result.length === 0) {
             return res.status(404).json({ message: "Not Found"});
+            //return { status: 400, message: "Not Found"};
         }
         else {
             return res.status(200).json(result);
+            //return { status: 200, result};
         }
     } catch (error) {
         console.log(error);
         res.status(500).json({message: "Internal server error"});
+        //return { status: 500, message: "Internal server error"};
     }
 }
 
